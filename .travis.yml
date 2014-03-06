@@ -1,0 +1,10 @@
+language: java
+jdk:
+  - openjdk7
+  - oraclejdk7
+before_script:
+  - psql -c 'create database newsletter;' -U postgres
+deploy:
+  provider: heroku
+  api_key: "ff1fe03b-5e4f-42b3-a40c-393369e0a4ba"
+
