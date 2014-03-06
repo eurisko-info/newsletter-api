@@ -1,0 +1,4 @@
+-------------------------------------------------------------------------------
+Test set: info.eurisko.core.services.NewsletterEventHandlerUnitTest
+-------------------------------------------------------------------------------
+Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.017 sec
