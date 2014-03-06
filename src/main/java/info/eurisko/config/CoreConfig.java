@@ -29,7 +29,7 @@ import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 @Configuration
-@ComponentScan(basePackages = "com.yummynoodlebar", excludeFilters = { @ComponentScan.Filter(Configuration.class) })
+@ComponentScan(basePackages = "info.eurisko.newsletter", excludeFilters = { @ComponentScan.Filter(Configuration.class) })
 @PropertySource("classpath:/META-INF/spring/database.properties")
 @EnableTransactionManagement
 public class CoreConfig {
