@@ -5,7 +5,7 @@ addons:
   postgresql: '9.3'
 before_script:
 - psql -c 'create database newsletter;' -U postgres
-script: export DATABASE_URL=jdbc:postgresql://localhost/newsletter?user=postgres &&
+script: export DATABASE_URL=postgres://postgres@localhost/newsletter &&
   mvn test
 deploy:
   app: eurisko-newsletter-api

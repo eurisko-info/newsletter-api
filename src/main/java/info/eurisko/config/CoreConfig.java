@@ -70,8 +70,6 @@ public class CoreConfig {
 	 * @throws URISyntaxException 
 	 */
 	public static String convertDatasourceURL(String dbUrl) {
-		if (dbUrl.startsWith("jdbc:"))
-			return dbUrl;
 		try {
 			URI dbUri = new URI(dbUrl);
 			final String userInfo = dbUri.getUserInfo();
