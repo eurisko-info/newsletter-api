@@ -1,6 +1,7 @@
 package info.eurisko.config;
 
 import java.net.URI;
+import java.net.URISyntaxException;
 
 import info.eurisko.core.domain.Newsletter;
 import info.eurisko.core.repository.NewslettersPersistentRepository;
@@ -53,7 +54,7 @@ public class CoreConfig {
 	private String dbDriverClass;
 
 	@Value("#{ environment['database.url']?:'' }")
-	private URI dbUrl;
+	private String dbUrl;
 
 	@Value("#{ environment['database.vendor']?:'' }")
 	private String dbVendor;
@@ -66,22 +67,32 @@ public class CoreConfig {
 
 	/**
 	 * TODO Piece of code as ugly as it gets...
+	 * @throws URISyntaxException 
 	 */
-	public static String convertDatasourceURL(URI dbUrl) {
-		final String userInfo = dbUrl.getUserInfo();
-		final String portString = dbUrl.getPort() == -1 ? "" : ":" + dbUrl.getPort();
-		if (userInfo == null) {
-			return "jdbc:postgresql://"
-					+ dbUrl.getHost() + portString
-					+ dbUrl.getPath();
-		} else {
-			final String username = userInfo.indexOf(':') == -1 ? userInfo : userInfo.substring(0, userInfo.indexOf(':'));
-			final String password = userInfo.indexOf(':') == -1 ? null : userInfo.substring(userInfo.indexOf(':') + 1);
-			return "jdbc:postgresql://"
-					+ dbUrl.getHost() + portString
-					+ dbUrl.getPath()
-					+ "?user=" + username
-					+ (password == null ? "" : "&password=" + password);
+	public static String convertDatasourceURL(String dbUrl) {
+		try {
+			URI dbUri = new URI(dbUrl);
+			final String userInfo = dbUri.getUserInfo();
+			final String portString = dbUri.getPort() == -1 ? "" : ":" + dbUri.getPort();
+			if (dbUri.getHost() == null)
+				throw new RuntimeException("invalid host: " + dbUrl);
+			if (dbUri.getPath() == null)
+				throw new RuntimeException("invalid path: " + dbUrl);
+			if (userInfo == null) {
+				return "jdbc:postgresql://"
+						+ dbUri.getHost() + portString
+						+ dbUri.getPath();
+			} else {
+				final String username = userInfo.indexOf(':') == -1 ? userInfo : userInfo.substring(0, userInfo.indexOf(':'));
+				final String password = userInfo.indexOf(':') == -1 ? null : userInfo.substring(userInfo.indexOf(':') + 1);
+				return "jdbc:postgresql://"
+						+ dbUri.getHost() + portString
+						+ dbUri.getPath()
+						+ "?user=" + username
+						+ (password == null ? "" : "&password=" + password);
+			}
+		} catch (URISyntaxException use) {
+			throw new RuntimeException("invalid URL: " + dbUrl, use);
 		}
 	}
 
