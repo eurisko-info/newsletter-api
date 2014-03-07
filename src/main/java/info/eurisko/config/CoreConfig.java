@@ -62,18 +62,24 @@ public class CoreConfig {
 	@Autowired
 	private Environment environment;
 
+	public String datasourceURL() {
+		final String userInfo = dbUrl.getUserInfo();
+		final String portString = dbUrl.getPort() == -1 ? "" : ":" + dbUrl.getPort();
+		final String username = userInfo.indexOf(':') == -1 ? userInfo : userInfo.substring(0, userInfo.indexOf(':'));
+		final String password = userInfo.indexOf(':') == -1 ? null : userInfo.substring(userInfo.indexOf(':') + 1);
+		return "jdbc:postgresql://"
+				+ dbUrl.getHost() + portString
+				+ dbUrl.getPath()
+				+ "?user=" + username
+				+ (password == null ? "" : "&password=" + password);
+	}
+
 	@Bean(name="dataSource")
 	public DataSource dataSource() {
-		final String pgUrl = "jdbc:postgresql://"
-				+ dbUrl.getHost() + (dbUrl.getPort() == -1 ? "" : ":" + dbUrl.getPort())
-				+ dbUrl.getPath()
-				+ "?user=" + dbUrl.getUserInfo().split(":")[0]
-				+ "&password=" + dbUrl.getUserInfo().split(":")[1];
-
 		final BasicDataSource bean = new BasicDataSource();
 
 		bean.setDriverClassName(dbDriverClass);
-		bean.setUrl(pgUrl);
+		bean.setUrl(datasourceURL());
 
 		bean.setTestOnBorrow(true);
 		bean.setTestOnReturn(true);
