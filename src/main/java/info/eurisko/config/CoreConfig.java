@@ -1,5 +1,7 @@
 package info.eurisko.config;
 
+import java.net.URI;
+
 import info.eurisko.core.domain.Newsletter;
 import info.eurisko.core.repository.NewslettersPersistentRepository;
 import info.eurisko.core.repository.NewslettersRepository;
@@ -51,7 +53,7 @@ public class CoreConfig {
 	private String dbDriverClass;
 
 	@Value("#{ environment['database.url']?:'' }")
-	private java.net.URI dbUrl;
+	private URI dbUrl;
 
 	@Value("#{ environment['database.vendor']?:'' }")
 	private String dbVendor;
@@ -62,16 +64,25 @@ public class CoreConfig {
 	@Autowired
 	private Environment environment;
 
-	public String datasourceURL() {
+	/**
+	 * TODO Piece of code as ugly as it gets...
+	 */
+	public static String convertDatasourceURL(URI dbUrl) {
 		final String userInfo = dbUrl.getUserInfo();
 		final String portString = dbUrl.getPort() == -1 ? "" : ":" + dbUrl.getPort();
-		final String username = userInfo.indexOf(':') == -1 ? userInfo : userInfo.substring(0, userInfo.indexOf(':'));
-		final String password = userInfo.indexOf(':') == -1 ? null : userInfo.substring(userInfo.indexOf(':') + 1);
-		return "jdbc:postgresql://"
-				+ dbUrl.getHost() + portString
-				+ dbUrl.getPath()
-				+ "?user=" + username
-				+ (password == null ? "" : "&password=" + password);
+		if (userInfo == null) {
+			return "jdbc:postgresql://"
+					+ dbUrl.getHost() + portString
+					+ dbUrl.getPath();
+		} else {
+			final String username = userInfo.indexOf(':') == -1 ? userInfo : userInfo.substring(0, userInfo.indexOf(':'));
+			final String password = userInfo.indexOf(':') == -1 ? null : userInfo.substring(userInfo.indexOf(':') + 1);
+			return "jdbc:postgresql://"
+					+ dbUrl.getHost() + portString
+					+ dbUrl.getPath()
+					+ "?user=" + username
+					+ (password == null ? "" : "&password=" + password);
+		}
 	}
 
 	@Bean(name="dataSource")
@@ -79,7 +90,7 @@ public class CoreConfig {
 		final BasicDataSource bean = new BasicDataSource();
 
 		bean.setDriverClassName(dbDriverClass);
-		bean.setUrl(datasourceURL());
+		bean.setUrl(convertDatasourceURL(dbUrl));
 
 		bean.setTestOnBorrow(true);
 		bean.setTestOnReturn(true);
