@@ -51,7 +51,7 @@ public class CoreConfig {
 	private String dbDriverClass;
 
 	@Value("#{ environment['database.url']?:'' }")
-	private String dbUrl;
+	private java.net.URI dbUrl;
 
 	@Value("#{ environment['database.vendor']?:'' }")
 	private String dbVendor;
@@ -64,10 +64,16 @@ public class CoreConfig {
 
 	@Bean(name="dataSource")
 	public DataSource dataSource() {
+		final String pgUrl = "jdbc:postgresql://"
+				+ dbUrl.getHost() + (dbUrl.getPort() == -1 ? "" : ":" + dbUrl.getPort())
+				+ dbUrl.getPath()
+				+ "?user=" + dbUrl.getUserInfo().split(":")[0]
+				+ "&password=" + dbUrl.getUserInfo().split(":")[1];
+
 		final BasicDataSource bean = new BasicDataSource();
 
 		bean.setDriverClassName(dbDriverClass);
-		bean.setUrl(dbUrl);
+		bean.setUrl(pgUrl);
 
 		bean.setTestOnBorrow(true);
 		bean.setTestOnReturn(true);
