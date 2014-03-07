@@ -50,7 +50,7 @@ public class ViewNewsletterXmlIntegrationTest {
 			.thenReturn(newsletterDetailsEvent(key));
 
 		this.mockMvc
-				.perform(get("/aggregators/newsletters/{id}", key.toString())
+				.perform(get("/newsletters/{id}", key.toString())
 					.accept(MediaType.TEXT_XML))
 				.andDo(print())
 				.andExpect(content().contentType(MediaType.TEXT_XML))
@@ -65,7 +65,7 @@ public class ViewNewsletterXmlIntegrationTest {
 		// JSON Path in use here (really like this)
 
 		this.mockMvc
-				.perform(get("/aggregators/newsletters/{id}", key.toString())
+				.perform(get("/newsletters/{id}", key.toString())
 					.accept(MediaType.APPLICATION_JSON))
 				.andDo(print())
 				.andExpect(content()

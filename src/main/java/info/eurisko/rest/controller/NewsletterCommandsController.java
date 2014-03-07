@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
 @RestController
-@RequestMapping("/aggregators/newsletters")
+@RequestMapping("/newsletters")
 public class NewsletterCommandsController {
 
     @Autowired
@@ -31,7 +31,7 @@ public class NewsletterCommandsController {
     	final HttpHeaders headers = new HttpHeaders();
         headers.setLocation(
                 builder
-                	.path("/aggregators/newsletters/{id}")
+                	.path("/newsletters/{id}")
                     .buildAndExpand(newsletterCreated.getNewNewsletterKey().toString())
                     .toUri());
 

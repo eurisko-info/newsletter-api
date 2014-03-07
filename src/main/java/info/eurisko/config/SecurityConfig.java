@@ -22,8 +22,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	protected void configure(final HttpSecurity http) throws Exception {
 		http
 			.csrf().disable()
-			.authorizeRequests().antMatchers("/aggregators/**")
-				.hasRole("USER")
-				.anyRequest().anonymous().and().httpBasic();
+			.authorizeRequests()
+				.antMatchers("/system/**").permitAll()
+				.antMatchers("/newsletters/**").hasRole("USER")
+				.anyRequest().anonymous()
+			.and()
+			.httpBasic();
 	}
 }

@@ -26,7 +26,7 @@ public class NewsletterTests {
 		final String path = entity.getHeaders().getLocation().getPath();
 
 		assertEquals(HttpStatus.CREATED, entity.getStatusCode());
-		assertTrue(path.startsWith("/aggregators/newsletters/"));
+		assertTrue(path.startsWith("/newsletters/"));
 		final Newsletter newsletter = entity.getBody();
 
 		System.out.println("The Newsletter ID is " + newsletter.getKey());
@@ -42,7 +42,7 @@ public class NewsletterTests {
 		final RestTemplate template = new RestTemplate();
 		try {
 			final ResponseEntity<Newsletter> entity = template.postForEntity(
-					"http://localhost:8080/aggregators/newsletters",
+					"http://localhost:8080/newsletters",
 					requestEntity,
 					Newsletter.class);
 
@@ -68,7 +68,7 @@ public class NewsletterTests {
 
 		final RestTemplate template = new RestTemplate();
 		return template.postForEntity(
-				"http://localhost:8080/aggregators/newsletters",
+				"http://localhost:8080/newsletters",
 				requestEntity,
 				Newsletter.class);
 	}

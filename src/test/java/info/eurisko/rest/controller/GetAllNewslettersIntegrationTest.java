@@ -40,7 +40,7 @@ public class GetAllNewslettersIntegrationTest {
 	@Test
 	public void thatGetNewslettersRendersAsJson() throws Exception {
 		this.mockMvc
-			.perform(get("/aggregators/newsletters")
+			.perform(get("/newsletters")
 				.accept(MediaType.APPLICATION_JSON))
 			.andDo(print())
 			.andExpect(status().isOk());

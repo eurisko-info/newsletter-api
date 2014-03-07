@@ -43,7 +43,7 @@ public class RestDomainIntegrationTest {
 	@Test
 	public void addANewNewsletterToTheSystem() throws Exception {
 		this.mockMvc
-				.perform(post("/aggregators/newsletters")
+				.perform(post("/newsletters")
 					.content(standardNewsletterJSON())
 					.contentType(MediaType.APPLICATION_JSON)
 					.accept(MediaType.APPLICATION_JSON))
@@ -51,7 +51,7 @@ public class RestDomainIntegrationTest {
 				.andExpect(status().isCreated());
 
 		this.mockMvc
-				.perform(get("/aggregators/newsletters")
+				.perform(get("/newsletters")
 					.accept(MediaType.APPLICATION_JSON))
 				.andDo(print())
 				.andExpect(status().isOk());

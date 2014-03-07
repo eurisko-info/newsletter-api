@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/aggregators/newsletters")
+@RequestMapping("/newsletters")
 public class NewsletterQueriesController {
 
     @Autowired

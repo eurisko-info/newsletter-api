@@ -48,7 +48,7 @@ public class ViewNewsletterIntegrationTest {
 			.thenReturn(newsletterDetailsNotFound(key));
 
 		this.mockMvc
-			.perform(get("/aggregators/newsletters/{id}", key.toString())
+			.perform(get("/newsletters/{id}", key.toString())
 				.accept(MediaType.APPLICATION_JSON))
 			.andDo(print())
 			.andExpect(status().isNotFound());
@@ -60,7 +60,7 @@ public class ViewNewsletterIntegrationTest {
 			.thenReturn(newsletterDetailsEvent(key));
 
 		this.mockMvc
-			.perform(get("/aggregators/newsletters/{id}", key.toString())
+			.perform(get("/newsletters/{id}", key.toString())
 				.accept(MediaType.APPLICATION_JSON))
 			.andExpect(status().isOk());
 	}
@@ -71,7 +71,7 @@ public class ViewNewsletterIntegrationTest {
 			.thenReturn(newsletterDetailsEvent(key));
 
 		this.mockMvc
-			.perform(get("/aggregators/newsletters/{id}", key.toString())
+			.perform(get("/newsletters/{id}", key.toString())
 				.accept(MediaType.APPLICATION_JSON))
 			.andExpect(jsonPath("$.key").value(key.toString()));
 	}
