@@ -44,7 +44,6 @@ public class CoreConfig {
 
 	@Bean
 	public NewslettersRepository createRepo() {
-		// return new NewslettersMemoryRepository();
 		return new NewslettersPersistentRepository();
 	}
 

@@ -11,7 +11,6 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
-import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
@@ -23,12 +22,11 @@ import org.springframework.web.context.WebApplicationContext;
  * We have already asserted the correctness of the collaboration.
  * This is to check that the wiring in MVCConfig works.
  * We do this by inference, via hitting URLs in the system and checking they work as expected given a well known infrastructure and system state.
- * This is a minimal set, as we've checked the actual behaviour of rendering, http status handling and URL mapping separately.
+ * This is a minimal set, as we've checked the actual behavior of rendering, http status handling and URL mapping separately.
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@WebAppConfiguration
 @ContextConfiguration(classes = { CoreConfig.class, MVCConfig.class })
-@DirtiesContext
+@WebAppConfiguration
 public class RestDomainIntegrationTest {
 	@Autowired
 	private WebApplicationContext wac;

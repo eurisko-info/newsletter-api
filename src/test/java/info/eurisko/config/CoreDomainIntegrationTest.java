@@ -7,18 +7,14 @@ import info.eurisko.core.events.newsletters.NewsletterDetails;
 import info.eurisko.core.events.newsletters.RequestAllNewslettersEvent;
 import info.eurisko.core.services.NewsletterService;
 
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-@Ignore
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = { CoreConfig.class })
-@DirtiesContext
 public class CoreDomainIntegrationTest {
 	@Autowired
 	private NewsletterService newsletterService;
