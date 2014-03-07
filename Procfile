@@ -1,1 +1,1 @@
-web: java $JAVA_OPTS -jar target/dependency/jetty-runner.jar --port $PORT target/*.war
+web: java $JAVA_OPTS -DDATABASE_URL="jdbc:postgresql://ec2-50-16-201-126.compute-1.amazonaws.com:5432/d5thm71ndfro6a?user=fnoriooahdwmtl&password=EW2EPdwjSFpLArOietbZZ3DX1m" -jar target/dependency/jetty-runner.jar --port $PORT target/*.war
