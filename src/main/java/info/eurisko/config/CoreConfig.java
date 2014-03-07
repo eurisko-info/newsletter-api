@@ -2,6 +2,7 @@ package info.eurisko.config;
 
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.UUID;
 
 import info.eurisko.core.domain.Newsletter;
 import info.eurisko.core.repository.NewslettersPersistentRepository;
@@ -119,6 +120,7 @@ public class CoreConfig {
 	public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
 		final LocalContainerEntityManagerFactoryBean bean = new LocalContainerEntityManagerFactoryBean();
 		bean.setDataSource(dataSource());
+		bean.setPersistenceUnitName("PU-" + UUID.randomUUID());
 
 		// No need for persistence.xml - thanks to packagesToScan
 		logger.warn("Scanning Package '{}' for entities", Newsletter.class.getPackage().getName());
