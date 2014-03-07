@@ -12,9 +12,13 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.transaction.TransactionConfiguration;
+import org.springframework.transaction.annotation.Transactional;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = { CoreConfig.class })
+@TransactionConfiguration(transactionManager = "transactionManager", defaultRollback = true)
+@Transactional
 public class CoreDomainIntegrationTest {
 	@Autowired
 	private NewsletterService newsletterService;
@@ -27,10 +31,12 @@ public class CoreDomainIntegrationTest {
 	public void addANewNewsletterToTheSystem() throws Exception {
 		final CreateNewsletterEvent ev = new CreateNewsletterEvent(new NewsletterDetails());
 
+		int originalSize = newsletterService.requestAllNewsletters(new RequestAllNewslettersEvent()).getNewslettersDetails().size();
+
 		newsletterService.createNewsletter(ev);
 
 		final AllNewslettersEvent allNewsletters = newsletterService.requestAllNewsletters(new RequestAllNewslettersEvent());
 
-		assertEquals(1, allNewsletters.getNewslettersDetails().size());
+		assertEquals(originalSize + 1, allNewsletters.getNewslettersDetails().size());
 	}
 }

@@ -13,9 +13,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.transaction.TransactionConfiguration;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.WebApplicationContext;
 
 /**
@@ -25,9 +27,11 @@ import org.springframework.web.context.WebApplicationContext;
  * This is a minimal set, as we've checked the actual behavior of rendering, http status handling and URL mapping separately.
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = { MVCConfig.class }, inheritLocations=true)
+@ContextConfiguration(classes = { CoreConfig.class, MVCConfig.class })
 @WebAppConfiguration
-public class RestDomainIntegrationTest extends CoreDomainIntegrationTest {
+@TransactionConfiguration(transactionManager = "transactionManager", defaultRollback = true)
+@Transactional
+public class RestDomainIntegrationTest {
 	@Autowired
 	private WebApplicationContext wac;
 
