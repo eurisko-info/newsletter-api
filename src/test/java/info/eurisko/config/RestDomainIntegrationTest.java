@@ -25,9 +25,9 @@ import org.springframework.web.context.WebApplicationContext;
  * This is a minimal set, as we've checked the actual behavior of rendering, http status handling and URL mapping separately.
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = { CoreConfig.class, MVCConfig.class })
+@ContextConfiguration(classes = { MVCConfig.class }, inheritLocations=true)
 @WebAppConfiguration
-public class RestDomainIntegrationTest {
+public class RestDomainIntegrationTest extends CoreDomainIntegrationTest {
 	@Autowired
 	private WebApplicationContext wac;
 

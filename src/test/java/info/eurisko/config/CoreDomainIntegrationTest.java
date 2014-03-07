@@ -24,7 +24,7 @@ public class CoreDomainIntegrationTest {
 	 * check that the wiring in CoreConfig works. We do this by inference.
 	 */
 	@Test
-	public void addANewNewsletterToTheSystem() {
+	public void addANewNewsletterToTheSystem() throws Exception {
 		final CreateNewsletterEvent ev = new CreateNewsletterEvent(new NewsletterDetails());
 
 		newsletterService.createNewsletter(ev);

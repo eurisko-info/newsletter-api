@@ -116,29 +116,24 @@ public class CoreConfig {
 		return bean;
 	}
 
-	private static LocalContainerEntityManagerFactoryBean entityManagerFactoryBean = null;
 	@Bean(name="entityManagerFactory")
 	public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
-		if (entityManagerFactoryBean != null) {
-			return entityManagerFactoryBean;
-		}
-
-		entityManagerFactoryBean = new LocalContainerEntityManagerFactoryBean();
-		entityManagerFactoryBean.setDataSource(dataSource());
-		entityManagerFactoryBean.setPersistenceUnitName("PU-" + UUID.randomUUID());
+		final LocalContainerEntityManagerFactoryBean bean = new LocalContainerEntityManagerFactoryBean();
+		bean.setDataSource(dataSource());
+		bean.setPersistenceUnitName("PU-" + UUID.randomUUID());
 
 		// No need for persistence.xml - thanks to packagesToScan
 		logger.warn("Scanning Package '{}' for entities", Newsletter.class.getPackage().getName());
-		entityManagerFactoryBean.setPackagesToScan(Newsletter.class.getPackage().getName());
+		bean.setPackagesToScan(Newsletter.class.getPackage().getName());
 
 		final HibernateJpaVendorAdapter jpaVendorAdapter = new HibernateJpaVendorAdapter();
 		jpaVendorAdapter.setDatabase(Database.valueOf(dbVendor));
 		jpaVendorAdapter.setShowSql(true);
 		jpaVendorAdapter.setGenerateDdl(true);
 
-		entityManagerFactoryBean.setJpaVendorAdapter(jpaVendorAdapter);
+		bean.setJpaVendorAdapter(jpaVendorAdapter);
 
-		return entityManagerFactoryBean;
+		return bean;
 	}
 
 	@Bean(name="transactionManager")
